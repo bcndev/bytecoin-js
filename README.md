@@ -1,1 +1,1 @@
-# bytecoin-javascript
+# bytecoin-js
