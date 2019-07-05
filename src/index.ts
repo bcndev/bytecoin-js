@@ -97,12 +97,16 @@ function decode_addr(addr: string) {
 }
 
 export function checkAddress(addr: string): boolean {
+  if (!addressPattern.test(addr))
+    return false;
+
   const addr_data = decode_addr(addr);
   const body_size = 64;
   if (!addr_data || addr_data.length < body_size)
     return false;
+
   const tag = addr_data.slice(0, addr_data.length - body_size);
   return to_hex(tag) === to_hex(tag1) || to_hex(tag) === to_hex(tag2);
 }
 
-export const addressPattern = /(2|bcnZ)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{94}$/;
+export const addressPattern = /^(2|bcnZ)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{94}$/;

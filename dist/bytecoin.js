@@ -86,6 +86,8 @@ function decode_addr(addr) {
     return addr_data;
 }
 function checkAddress(addr) {
+    if (!exports.addressPattern.test(addr))
+        return false;
     const addr_data = decode_addr(addr);
     const body_size = 64;
     if (!addr_data || addr_data.length < body_size)
@@ -94,7 +96,7 @@ function checkAddress(addr) {
     return to_hex(tag) === to_hex(tag1) || to_hex(tag) === to_hex(tag2);
 }
 exports.checkAddress = checkAddress;
-exports.addressPattern = /(2|bcnZ)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{94}$/;
+exports.addressPattern = /^(2|bcnZ)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{94}$/;
 
 },{"js-sha3":2}],2:[function(require,module,exports){
 /**
