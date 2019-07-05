@@ -1,4 +1,4 @@
-# bytecoin-js
+# bytecoin-js [![npm version](https://img.shields.io/npm/v/@bcndev/bytecoin.svg)](https://www.npmjs.com/package/@bcndev/bytecoin)
 
 ## Development
 
