@@ -1,0 +1,29 @@
+{
+  "name": "@bcndev/bytecoin",
+  "version": "0.1.0",
+  "description": "Utility package for Bytecoin",
+  "repository": "https://github.com/bcndev/bytecoin-js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/index.js",
+    "./dist/index.d.ts"
+  ],
+  "scripts": {
+    "build": "tsc && browserify --standalone bcn --bare ./dist/index.js -o ./dist/bytecoin.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Bytecoin Developer <developer@bytecoin.org>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "browserify": "^16.2.3",
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "js-sha3": "^0.8.0"
+  }
+}
