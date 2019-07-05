@@ -1,6 +1,6 @@
 {
   "name": "@bcndev/bytecoin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Utility package for Bytecoin",
   "repository": "https://github.com/bcndev/bytecoin-js",
   "main": "dist/index.js",
@@ -11,7 +11,9 @@
   ],
   "scripts": {
     "build": "tsc && browserify --standalone bcn --bare ./dist/index.js -o ./dist/bytecoin.js",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test"
   },
   "keywords": [],
   "author": "Bytecoin Developer <developer@bytecoin.org>",
