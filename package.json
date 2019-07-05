@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "description": "Utility package for Bytecoin",
   "repository": "https://github.com/bcndev/bytecoin-js",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "./dist/index.js",
-    "./dist/index.d.ts"
+    "dist/index.js",
+    "dist/index.d.ts"
   ],
   "scripts": {
     "build": "tsc && browserify --standalone bcn --bare ./dist/index.js -o ./dist/bytecoin.js",
