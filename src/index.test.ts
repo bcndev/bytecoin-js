@@ -1,3 +1,6 @@
+// Copyright 2019 The Bytecoin developers.
+// Licensed under the Apache License, Version 2.0.
+
 import {checkAddress} from "./index";
 
 test("check valid addresses", () => {

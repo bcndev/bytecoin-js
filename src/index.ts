@@ -1,3 +1,6 @@
+// Copyright 2019 The Bytecoin developers.
+// Licensed under the Apache License, Version 2.0.
+
 import {keccak256} from "js-sha3";
 
 const tag1 = [6]; // legacy, 2*
