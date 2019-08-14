@@ -1,6 +1,6 @@
 {
   "name": "@bcndev/bytecoin",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Utility package for Bytecoin",
   "repository": "https://github.com/bcndev/bytecoin-js",
   "main": "dist/index.js",

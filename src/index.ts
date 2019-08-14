@@ -3,8 +3,10 @@
 
 import {keccak256} from "js-sha3";
 
-const tag1 = [6]; // legacy, 2*
-const tag2 = [0xce, 0xf6, 0x22]; // amethyst, bcnZ*
+const tagLegacy = [6];                                       // legacy, 2*
+const tagAmethyst = [0xce, 0xf6, 0x22];                      // amethyst, bcnZ*
+const tagProof = [0xce, 0xf5, 0xe2, 0x80, 0x91, 0xdd, 0x13]; // bcn1PRoof*
+const tagAudit = [0xce, 0xf5, 0xf4, 0xbd, 0xd1, 0x71];       // bcnAUDit*
 
 const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 const full_block_size = 8;
@@ -81,7 +83,7 @@ function to_hex(buf: number[] | Uint8Array) {
   return Array.from(buf).map((byte) => ('0' + (byte & 0xFF).toString(16)).slice(-2)).join('');
 }
 
-function decode_addr(addr: string) {
+function decode_addr(addr: string): Uint8Array | false {
   let addr_data = decode(addr);
   const addr_checksum_size = 4;
   if (!addr_data)
@@ -99,7 +101,7 @@ function decode_addr(addr: string) {
   return addr_data;
 }
 
-export function checkAddress(addr: string): boolean {
+export function checkAddressFormat(addr: string): boolean {
   if (!addressPattern.test(addr))
     return false;
 
@@ -109,7 +111,17 @@ export function checkAddress(addr: string): boolean {
     return false;
 
   const tag = addr_data.slice(0, addr_data.length - body_size);
-  return to_hex(tag) === to_hex(tag1) || to_hex(tag) === to_hex(tag2);
+  return to_hex(tag) === to_hex(tagLegacy) || to_hex(tag) === to_hex(tagAmethyst);
+}
+
+export function checkProofFormat(proof: string): boolean {
+  return proofPattern.test(proof) && decode_addr(proof) !== false;
+}
+
+export function checkAuditFormat(audit: string): boolean {
+  return auditPattern.test(audit) && decode_addr(audit) !== false;
 }
 
 export const addressPattern = /^(2|bcnZ)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{94}$/;
+export const proofPattern = /^bcn1PRoof[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/;
+export const auditPattern = /^bcnAUDit[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/;

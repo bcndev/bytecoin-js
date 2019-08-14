@@ -1,9 +1,13 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.bcn = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
+// Copyright 2019 The Bytecoin developers.
+// Licensed under the Apache License, Version 2.0.
 Object.defineProperty(exports, "__esModule", { value: true });
 const js_sha3_1 = require("js-sha3");
-const tag1 = [6]; // legacy, 2*
-const tag2 = [0xce, 0xf6, 0x22]; // amethyst, bcnZ*
+const tagLegacy = [6]; // legacy, 2*
+const tagAmethyst = [0xce, 0xf6, 0x22]; // amethyst, bcnZ*
+const tagProof = [0xce, 0xf5, 0xe2, 0x80, 0x91, 0xdd, 0x13]; // bcn1PRoof*
+const tagAudit = [0xce, 0xf5, 0xf4, 0xbd, 0xd1, 0x71]; // bcnAUDit*
 const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 const full_block_size = 8;
 const full_encoded_block_size = 11;
@@ -85,7 +89,7 @@ function decode_addr(addr) {
         return false;
     return addr_data;
 }
-function checkAddress(addr) {
+function checkAddressFormat(addr) {
     if (!exports.addressPattern.test(addr))
         return false;
     const addr_data = decode_addr(addr);
@@ -93,10 +97,20 @@ function checkAddress(addr) {
     if (!addr_data || addr_data.length < body_size)
         return false;
     const tag = addr_data.slice(0, addr_data.length - body_size);
-    return to_hex(tag) === to_hex(tag1) || to_hex(tag) === to_hex(tag2);
+    return to_hex(tag) === to_hex(tagLegacy) || to_hex(tag) === to_hex(tagAmethyst);
 }
-exports.checkAddress = checkAddress;
+exports.checkAddressFormat = checkAddressFormat;
+function checkProofFormat(proof) {
+    return exports.proofPattern.test(proof) && decode_addr(proof) !== false;
+}
+exports.checkProofFormat = checkProofFormat;
+function checkAuditFormat(audit) {
+    return exports.auditPattern.test(audit) && decode_addr(audit) !== false;
+}
+exports.checkAuditFormat = checkAuditFormat;
 exports.addressPattern = /^(2|bcnZ)[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{94}$/;
+exports.proofPattern = /^bcn1PRoof[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/;
+exports.auditPattern = /^bcnAUDit[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/;
 
 },{"js-sha3":2}],2:[function(require,module,exports){
 /**
